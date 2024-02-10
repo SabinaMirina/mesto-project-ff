@@ -7,18 +7,21 @@ const places = content.querySelector(".places");
 const placesList = places.querySelector(".places__list");
 
 // @todo: Функция создания карточки
-function addCard(cards) {
-  cards.forEach(function (card) {
-    const cardElement = cardTemplate
-      .querySelector(".places__item")
-      .cloneNode(true);
-    cardElement.querySelector(".card__image").src = card.link;
-    cardElement.querySelector(".card__description").textContent = card.name;
-    cardElement
-      .querySelector(".card__delete-button")
-      .addEventListener("click", deleteCard);
-    placesList.append(cardElement);
-  });
+function createCard(card, deleteCard) {
+  const cardElement = cardTemplate
+    .querySelector(".places__item")
+    .cloneNode(true); // клонирование
+  const cardImage = cardElement.querySelector(".card__image"); // картинка определение константы
+
+  cardElement.querySelector(".card__description").textContent = card.name; //название карточки
+  cardImage.alt = card.name; // название изображения
+  cardImage.src = card.link; // ссылка на изображение
+
+  cardElement
+    .querySelector(".card__delete-button")
+    .addEventListener("click", deleteCard); // слушатель
+
+  return cardElement; // возвращение
 }
 
 // @todo: Функция удаления карточки
@@ -28,4 +31,11 @@ function deleteCard(event) {
 }
 
 // @todo: Вывести карточки на страницу
+function addCard(cards) {
+  cards.forEach(function (card) {
+    const cardElement = createCard(card, deleteCard); //константа определяем
+    placesList.append(cardElement); // вывод
+  });
+}
+
 addCard(initialCards);
