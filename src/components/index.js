@@ -1,4 +1,5 @@
 // @todo: Темплейт карточки
+// @todo: Темплейт карточки
 const cardTemplate = document.querySelector("#card-template").content;
 
 // @todo: DOM узлы
@@ -21,6 +22,7 @@ const formImgName = popupFormImg.elements["place-name"];
 const formImgLink = popupFormImg.elements["link"];
 const formImgNamePlaceholder = formImgName.placeholder;
 const formImgLinkPlaceholder = formImgLink.placeholder;
+const buttonSubmit = document.querySelector("popup__button");
 //константы формы редактирования профиля
 const popupFormProfile = document.forms["edit-profile"];
 const nameInput = popupFormProfile.elements["name"];
@@ -28,6 +30,80 @@ const jobInput = popupFormProfile.elements["description"];
 //константы профиля
 const profileTitle = document.querySelector(".profile__title");
 const profileSubtitle = document.querySelector(".profile__description");
+
+//Подключение аватара
+import avatarImage from "../images/avatar.jpg";
+document.querySelector(
+  ".profile__image"
+).style.backgroundImage = `url(${avatarImage})`;
+
+import "../index.css";
+import { initialCards, addCard, createCard } from "./cards.js";
+import { openModal, closeModal } from "./modal.js";
+
+//значения в модальном окне редактирования профиля
+nameInput.value = profileTitle.textContent;
+jobInput.value = profileSubtitle.textContent;
+
+addCard(initialCards);
+
+//функция добавления новой карточки пользователем
+function popupNewImgAdd(evt) {
+  evt.preventDefault();
+  const card = {
+    name: formImgName.value,
+    link: formImgLink.value,
+  };
+  placesList.prepend(createCard(card));
+  closeModal(popupAddCard);
+  evt.target.reset();
+}
+
+//Обработчик «отправки» формы
+function handleFormSubmit(evt) {
+  evt.preventDefault();
+  //поля формы
+  const nameValue = nameInput.value;
+  const jobValue = jobInput.value;
+
+  profileTitle.textContent = nameValue;
+  profileSubtitle.textContent = jobValue;
+  evt.target.reset();
+  closeModal(popupEdit);
+}
+
+//обработчик «отправки» формы
+popupFormProfile.addEventListener("submit", handleFormSubmit);
+
+//обработчик открытия попапа/профиль
+buttonProfileEdit.addEventListener("click", function () {
+  openModal(popupEdit);
+});
+
+//обработчик открытия попапа/добавления
+buttonAddCard.addEventListener("click", function () {
+  openModal(popupAddCard);
+});
+
+//обработчик добавки новой карточки
+popupFormImg.addEventListener("submit", popupNewImgAdd);
+
+//Дополнительно реализовала удаление плэйсхолдеров в модальном окне добавления карточки
+formImgName.addEventListener("focus", function (evt) {
+  formImgName.placeholder = "";
+});
+
+formImgLink.addEventListener("focus", function (evt) {
+  formImgLink.placeholder = "";
+});
+
+formImgName.addEventListener("blur", function (evt) {
+  formImgName.placeholder = formImgNamePlaceholder;
+});
+
+formImgLink.addEventListener("blur", function (evt) {
+  formImgLink.placeholder = formImgLinkPlaceholder;
+});
 
 export {
   cardTemplate,
@@ -52,51 +128,3 @@ export {
   profileTitle,
   profileSubtitle,
 };
-
-import "../index.css";
-import { initialCards, addCard } from "./cards.js";
-import {
-  openModal,
-  closeModal,
-  popupNewImgAdd,
-  handleFormSubmit,
-} from "./modal.js";
-
-//значения в модальном окне редактирования профиля
-nameInput.value = profileTitle.textContent;
-jobInput.value = profileSubtitle.textContent;
-
-addCard(initialCards);
-
-//обработчик «отправки» формы
-popupFormProfile.addEventListener("submit", handleFormSubmit);
-
-//обработчик открытия попапа/профиль
-buttonProfileEdit.addEventListener("click", function () {
-  openModal(popupEdit, closeModal);
-});
-
-//обработчик открытия попапа/кнопка +
-buttonAddCard.addEventListener("click", function () {
-  openModal(popupAddCard, closeModal);
-});
-
-//обработчик добавки новой карточки
-popupFormImg.addEventListener("submit", popupNewImgAdd);
-
-//Дополнительно реализовала удаление плэйсхолдеров в модальном окне добавления карточки
-formImgName.addEventListener("focus", function (evt) {
-  formImgName.placeholder = "";
-});
-
-formImgLink.addEventListener("focus", function (evt) {
-  formImgLink.placeholder = "";
-});
-
-formImgName.addEventListener("blur", function (evt) {
-  formImgName.placeholder = formImgNamePlaceholder;
-});
-
-formImgLink.addEventListener("blur", function (evt) {
-  formImgLink.placeholder = formImgLinkPlaceholder;
-});

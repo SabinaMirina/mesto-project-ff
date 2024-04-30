@@ -1,12 +1,15 @@
 {
   "name": "mesto-project-ff",
   "version": "1.0.0",
-  "description": "https://github.com/SabinaMirina/mesto-project-ff.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SabinaMirina/mesto-project-ff.git"
+  },
+  "description": "Project Mesto - interactive page where users can add, remove or like photos.",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "start": "npx webpack-dev-server --mode development",
-    "dev": "webpack serve --mode=development"
+    "dev": "webpack serve --mode development --open"
   },
   "keywords": [],
   "author": "Sabina Mirina",
@@ -21,7 +24,7 @@
     "css-loader": "^6.10.0",
     "cssnano": "^6.1.0",
     "html-webpack-plugin": "^5.6.0",
-    "mini-css-extract-plugin": "^2.8.1",
+    "mini-css-extract-plugin": "^2.9.0",
     "postcss-loader": "^8.1.1",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4",

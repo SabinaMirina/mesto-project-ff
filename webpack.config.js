@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "main.js",
-    publicPath: "",
+    publicPath: "/",
   },
   mode: "development",
   devServer: {
@@ -21,6 +21,7 @@ module.exports = {
   stats: {
     errorDetails: true,
   },
+  devtool: "source-map",
   module: {
     rules: [
       // rules — это массив правил
@@ -71,6 +72,6 @@ module.exports = {
       template: "./src/index.html",
     }),
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin(), // подключение плагина для объединения файлов
+    new MiniCssExtractPlugin(),
   ],
 };

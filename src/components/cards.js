@@ -1,29 +1,4 @@
-const initialCards = [
-  {
-    name: "Архыз",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-  },
-  {
-    name: "Челябинская область",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-  },
-  {
-    name: "Иваново",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-  },
-  {
-    name: "Камчатка",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-  },
-  {
-    name: "Холмогорский район",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-  },
-  {
-    name: "Байкал",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-  },
-];
+import { initialCards } from "./initialCards.js";
 
 import { cardTemplate, placesList } from "./index.js";
 
@@ -33,8 +8,6 @@ import {
   closeModalEsc,
   closeModalOverlay,
 } from "./modal.js";
-
-export { initialCards, addCard, openModal, createCard, deleteCard, likeCard };
 
 function createCard(card, deleteCard) {
   const cardElement = cardTemplate
@@ -49,19 +22,18 @@ function createCard(card, deleteCard) {
   const popupImage = document.querySelector(".popup_type_image"); //Попап открытия картинки
   //обработчик открытия попапа/картинка
   cardImage.addEventListener("click", function () {
-    openModal(
-      popupImage,
-      card.link,
-      closeModal,
-      closeModalEsc,
-      closeModalOverlay
-    );
+    openModal(popupImage, card.link, card.name);
   });
 
   //обработчик лайка карточки
   cardElement
     .querySelector(".card__like-button")
     .addEventListener("click", likeCard);
+
+  //обработчик удаления карточки
+  cardElement
+    .querySelector(".card__delete-button")
+    .addEventListener("click", deleteCard);
 
   return cardElement; // возвращение
 }
@@ -84,3 +56,5 @@ function addCard(cards) {
     placesList.append(cardElement); // вывод
   });
 }
+
+export { initialCards, addCard, openModal, createCard, deleteCard, likeCard };
