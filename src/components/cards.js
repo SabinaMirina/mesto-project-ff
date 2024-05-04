@@ -1,6 +1,10 @@
-import { initialCards } from "./initialCards.js";
+// @todo: Темплейт карточки
+const cardTemplate = document.querySelector("#card-template").content;
+// DOM узлы
+const placesList = document.querySelector(".places__list"); //Карточка
+const popupImage = document.querySelector(".popup_type_image"); //Попап открытия картинки
 
-import { cardTemplate, placesList } from "./index.js";
+import { initialCards } from "./initialCards.js";
 
 import {
   openModal,
@@ -9,7 +13,7 @@ import {
   closeModalOverlay,
 } from "./modal.js";
 
-function createCard(card, deleteCard) {
+function createCard(card, { deleteCard, likeCard, openModal }) {
   const cardElement = cardTemplate
     .querySelector(".places__item")
     .cloneNode(true); // клонирование
@@ -19,7 +23,6 @@ function createCard(card, deleteCard) {
   cardImage.alt = card.name; // название изображения
   cardImage.src = card.link; // ссылка на изображение
 
-  const popupImage = document.querySelector(".popup_type_image"); //Попап открытия картинки
   //обработчик открытия попапа/картинка
   cardImage.addEventListener("click", function () {
     openModal(popupImage, card.link, card.name);
@@ -50,11 +53,19 @@ function likeCard(evt) {
 }
 
 // @todo: Вывести карточки на страницу
-function addCard(cards) {
+function addCards(cards) {
   cards.forEach(function (card) {
-    const cardElement = createCard(card, deleteCard); //константа определяем
+    const cardElement = createCard(card, { deleteCard, likeCard, openModal }); //константа определяем
     placesList.append(cardElement); // вывод
   });
 }
 
-export { initialCards, addCard, openModal, createCard, deleteCard, likeCard };
+export {
+  initialCards,
+  addCards,
+  openModal,
+  createCard,
+  deleteCard,
+  likeCard,
+  placesList,
+};

@@ -1,52 +1,70 @@
-import { modalWindow, nameInput, jobInput, popupAddCard } from "./index.js";
+// DOM узлы
+const modalWindow = document.querySelector(".popup"); //Общий селектор модальных окон
+const popImage = document.querySelector(".popup__image"); //картинка в модальном окне
+const modalExitButtons = document.querySelectorAll(".popup__close");
 
 import { createCard, deleteCard, likeCard } from "./cards.js";
 
 //функция открытия попапа
 const openModal = (modalWindow, imageSrc, imageDescription) => {
-  modalWindow.classList.add("popup_is-opened", "popup_is-animated");
-
-  const modalExitButtons = document.querySelectorAll(".popup__close");
+  modalWindow.classList.add("popup_is-animated"); // анимация
+  setTimeout(() => {
+    modalWindow.classList.add("popup_is-opened"); // открытие
+  }, 1);
 
   // Открытие модального окна с картинкой
   const popImage = modalWindow.querySelector(".popup__image"); // изображение внутри активного модального окна
   if (popImage) {
     const popImageDescription = modalWindow.querySelector(".popup__caption");
 
-    popImage.src = imageSrc; // Устанавливаем источник изображения
-    popImageDescription.textContent = imageDescription;
+    popImage.src = imageSrc; // источник изображения
+    popImage.alt = imageDescription; // альтернативный текст из описания картинки
+    popImageDescription.textContent = imageDescription; // описание каринки
   }
 
-  modalExitButtons.forEach((button) => {
-    button.addEventListener("click", () => closeModal(modalWindow));
-  });
+  // Навешиваем обработчик Escape
+  document.addEventListener("keydown", handleEscape);
 
-  document.addEventListener("keydown", function (evt) {
-    closeModalEsc(evt, modalWindow);
-  });
-
-  modalWindow.addEventListener("click", function (evt) {
-    closeModalOverlay(evt, modalWindow);
-  });
+  // Установка обработчиков событий
+  setupEventListeners(modalWindow);
 };
 
 //функция закрытия попапа
 function closeModal(modalWindow) {
   modalWindow.classList.remove("popup_is-opened");
+  document.removeEventListener("keydown", handleEscape);
+}
+
+// Функция обработки нажатия клавиши Escape
+function handleEscape(evt) {
+  if (evt.key === "Escape") {
+    const openedPopup = document.querySelector(".popup_is-opened");
+    if (openedPopup) {
+      closeModal(openedPopup);
+    }
+  }
 }
 
 //функция закрытия попапа овэрлэй
 function closeModalOverlay(evt, modalWindow) {
   if (evt.target === modalWindow) {
-    modalWindow.classList.remove("popup_is-opened");
+    closeModal(modalWindow);
   }
 }
 
-//функция закрытия попапа ESC
-function closeModalEsc(evt, modalWindow) {
-  if (evt.key === "Escape") {
-    modalWindow.classList.remove("popup_is-opened");
-  }
+// Установка обработчиков событий
+function setupEventListeners(modalWindow) {
+  const modalExitButtons = modalWindow.querySelectorAll(".popup__close");
+
+  modalExitButtons.forEach((button) => {
+    button.removeEventListener("click", closeModal);
+    button.addEventListener("click", () => closeModal(modalWindow));
+  });
+
+  modalWindow.removeEventListener("click", closeModalOverlay);
+  modalWindow.addEventListener("click", (evt) =>
+    closeModalOverlay(evt, modalWindow)
+  );
 }
 
-export { openModal, closeModal, closeModalEsc, closeModalOverlay };
+export { openModal, closeModal, closeModalOverlay };
