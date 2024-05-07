@@ -6,14 +6,9 @@ const popupImage = document.querySelector(".popup_type_image"); //Попап о�
 
 import { initialCards } from "./initialCards.js";
 
-import {
-  openModal,
-  closeModal,
-  closeModalEsc,
-  closeModalOverlay,
-} from "./modal.js";
+import { openModal, handleImageClick } from "./modal.js";
 
-function createCard(card, { deleteCard, likeCard, openModal }) {
+function createCard(card, { deleteCard, likeCard }) {
   const cardElement = cardTemplate
     .querySelector(".places__item")
     .cloneNode(true); // клонирование
@@ -25,7 +20,7 @@ function createCard(card, { deleteCard, likeCard, openModal }) {
 
   //обработчик открытия попапа/картинка
   cardImage.addEventListener("click", function () {
-    openModal(popupImage, card.link, card.name);
+    handleImageClick(popupImage, card.link, card.name);
   });
 
   //обработчик лайка карточки
@@ -55,7 +50,7 @@ function likeCard(evt) {
 // @todo: Вывести карточки на страницу
 function addCards(cards) {
   cards.forEach(function (card) {
-    const cardElement = createCard(card, { deleteCard, likeCard, openModal }); //константа определяем
+    const cardElement = createCard(card, { deleteCard, likeCard }); //константа определяем
     placesList.append(cardElement); // вывод
   });
 }

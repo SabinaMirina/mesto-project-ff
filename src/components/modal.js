@@ -1,37 +1,51 @@
 // DOM узлы
-const modalWindow = document.querySelector(".popup"); //Общий селектор модальных окон
 const popImage = document.querySelector(".popup__image"); //картинка в модальном окне
-const modalExitButtons = document.querySelectorAll(".popup__close");
+const popImageDescription = document.querySelector(".popup__caption");
 
-import { createCard, deleteCard, likeCard } from "./cards.js";
+// обработчики событий при загрузке
+document.addEventListener("DOMContentLoaded", () => {
+  setupEventListeners();
+});
+
+// Обработчики событий для всех модальных окон
+function setupEventListeners() {
+  document.querySelectorAll(".popup").forEach((modal) => {
+    modal.querySelectorAll(".popup__close").forEach((button) => {
+      button.addEventListener("click", () => closeModal(modal));
+    });
+
+    modal.addEventListener("click", (evt) => {
+      if (evt.target === modal) {
+        closeModal(modal);
+      }
+    });
+  });
+}
 
 //функция открытия попапа
-const openModal = (modalWindow, imageSrc, imageDescription) => {
-  modalWindow.classList.add("popup_is-animated"); // анимация
+const openModal = (modal) => {
+  modal.classList.add("popup_is-animated"); // анимация
   setTimeout(() => {
-    modalWindow.classList.add("popup_is-opened"); // открытие
+    modal.classList.add("popup_is-opened"); // открытие
   }, 1);
-
-  // Открытие модального окна с картинкой
-  const popImage = modalWindow.querySelector(".popup__image"); // изображение внутри активного модального окна
-  if (popImage) {
-    const popImageDescription = modalWindow.querySelector(".popup__caption");
-
-    popImage.src = imageSrc; // источник изображения
-    popImage.alt = imageDescription; // альтернативный текст из описания картинки
-    popImageDescription.textContent = imageDescription; // описание каринки
-  }
 
   // Навешиваем обработчик Escape
   document.addEventListener("keydown", handleEscape);
+};
 
-  // Установка обработчиков событий
-  setupEventListeners(modalWindow);
+// Функция открытия модального окна с картинкой
+const handleImageClick = (modal, imageSrc, imageDescription) => {
+  if (popImage) {
+    popImage.src = imageSrc;
+    popImage.alt = imageDescription;
+    popImageDescription.textContent = imageDescription;
+  }
+  openModal(modal);
 };
 
 //функция закрытия попапа
-function closeModal(modalWindow) {
-  modalWindow.classList.remove("popup_is-opened");
+function closeModal(modal) {
+  modal.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", handleEscape);
 }
 
@@ -46,25 +60,10 @@ function handleEscape(evt) {
 }
 
 //функция закрытия попапа овэрлэй
-function closeModalOverlay(evt, modalWindow) {
-  if (evt.target === modalWindow) {
-    closeModal(modalWindow);
+function closeModalOverlay(evt, modal) {
+  if (evt.target === modal) {
+    closeModal(modal);
   }
 }
 
-// Установка обработчиков событий
-function setupEventListeners(modalWindow) {
-  const modalExitButtons = modalWindow.querySelectorAll(".popup__close");
-
-  modalExitButtons.forEach((button) => {
-    button.removeEventListener("click", closeModal);
-    button.addEventListener("click", () => closeModal(modalWindow));
-  });
-
-  modalWindow.removeEventListener("click", closeModalOverlay);
-  modalWindow.addEventListener("click", (evt) =>
-    closeModalOverlay(evt, modalWindow)
-  );
-}
-
-export { openModal, closeModal, closeModalOverlay };
+export { openModal, closeModal, closeModalOverlay, handleImageClick };

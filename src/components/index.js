@@ -1,5 +1,4 @@
 // @todo: DOM узлы
-const places = document.querySelector(".places");
 const buttonAddCard = document.querySelector(".profile__add-button"); //Кнопка_+
 const buttonProfileEdit = document.querySelector(".profile__edit-button"); //Кнопка_edit
 const popupEdit = document.querySelector(".popup_type_edit"); //Попап редактирования профиля
@@ -8,9 +7,6 @@ const popupAddCard = document.querySelector(".popup_type_new-card"); //Попа�
 const popupFormImg = document.forms["new-place"];
 const formImgName = popupFormImg.elements["place-name"];
 const formImgLink = popupFormImg.elements["link"];
-const formImgNamePlaceholder = formImgName.placeholder;
-const formImgLinkPlaceholder = formImgLink.placeholder;
-const buttonSubmit = document.querySelector("popup__button");
 //константы формы редактирования профиля
 const popupFormProfile = document.forms["edit-profile"];
 const nameInput = popupFormProfile.elements["name"];
