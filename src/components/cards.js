@@ -2,24 +2,26 @@
 const cardTemplate = document.querySelector("#card-template").content;
 // DOM узлы
 const placesList = document.querySelector(".places__list"); //Карточка
-const popupImage = document.querySelector(".popup_type_image"); //Попап открытия картинки
+const popupImage = document.querySelector(".popup_type_image"); //Попап открытия картинки\
 
 import { initialCards } from "./initialCards.js";
 
-import { openModal, handleImageClick } from "./modal.js";
+import { openModal } from "./modal.js";
+
+import { handleImageClick } from "./index.js";
 
 function createCard(card, { deleteCard, likeCard }) {
   const cardElement = cardTemplate
     .querySelector(".places__item")
     .cloneNode(true); // клонирование
-  const cardImage = cardElement.querySelector(".card__image"); // картинка определение константы
 
+  const cardImage = cardElement.querySelector(".card__image"); // картинка определение константы
   cardElement.querySelector(".card__title").textContent = card.name; //название карточки
   cardImage.alt = card.name; // название изображения
   cardImage.src = card.link; // ссылка на изображение
 
   //обработчик открытия попапа/картинка
-  cardImage.addEventListener("click", function () {
+  cardElement.addEventListener("click", function () {
     handleImageClick(popupImage, card.link, card.name);
   });
 

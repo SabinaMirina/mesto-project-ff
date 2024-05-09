@@ -11,9 +11,14 @@ const formImgLink = popupFormImg.elements["link"];
 const popupFormProfile = document.forms["edit-profile"];
 const nameInput = popupFormProfile.elements["name"];
 const jobInput = popupFormProfile.elements["description"];
+//константы модального окна картинки
+const popImage = document.querySelector(".popup__image"); //картинка в модальном окне
+const popImageDescription = document.querySelector(".popup__caption");
+//Попап открытия картинки
 //константы профиля
 const profileTitle = document.querySelector(".profile__title");
 const profileSubtitle = document.querySelector(".profile__description");
+const cardTemplate = document.querySelector(".places__list");
 
 //Подключение аватара
 import avatarImage from "../images/avatar.jpg";
@@ -34,6 +39,26 @@ import { openModal, closeModal } from "./modal.js";
 
 addCards(initialCards);
 
+// обработчики событий при загрузке
+document.addEventListener("DOMContentLoaded", () => {
+  setupEventListeners();
+});
+
+// Обработчики событий для всех модальных окон
+function setupEventListeners() {
+  document.querySelectorAll(".popup").forEach((modal) => {
+    modal.querySelectorAll(".popup__close").forEach((button) => {
+      button.addEventListener("click", () => closeModal(modal));
+    });
+
+    modal.addEventListener("click", (evt) => {
+      if (evt.target === modal) {
+        closeModal(modal);
+      }
+    });
+  });
+}
+
 //функция добавления новой карточки пользователем
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
@@ -45,6 +70,16 @@ function handleCardFormSubmit(evt) {
   closeModal(popupAddCard);
   evt.target.reset();
 }
+
+// Функция открытия модального окна с картинкой
+export const handleImageClick = (popupImage, imageSrc, imageDescription) => {
+  if (popImage) {
+    popImage.src = imageSrc;
+    popImage.alt = imageDescription;
+    popImageDescription.textContent = imageDescription;
+  }
+  openModal(popupImage);
+};
 
 //Обработчик «отправки» формы
 function handleProfileFormSubmit(evt) {
