@@ -14,7 +14,7 @@ const jobInput = popupFormProfile.elements["description"];
 //константы модального окна картинки
 const popImage = document.querySelector(".popup__image"); //картинка в модальном окне
 const popImageDescription = document.querySelector(".popup__caption");
-//Попап открытия картинки
+const popupImage = document.querySelector(".popup_type_image"); //Попап открытия картинки\
 //константы профиля
 const profileTitle = document.querySelector(".profile__title");
 const profileSubtitle = document.querySelector(".profile__description");
@@ -72,7 +72,7 @@ function handleCardFormSubmit(evt) {
 }
 
 // Функция открытия модального окна с картинкой
-export const handleImageClick = (popupImage, imageSrc, imageDescription) => {
+export const handleImageClick = (imageSrc, imageDescription) => {
   if (popImage) {
     popImage.src = imageSrc;
     popImage.alt = imageDescription;

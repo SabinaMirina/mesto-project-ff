@@ -2,7 +2,6 @@
 const cardTemplate = document.querySelector("#card-template").content;
 // DOM узлы
 const placesList = document.querySelector(".places__list"); //Карточка
-const popupImage = document.querySelector(".popup_type_image"); //Попап открытия картинки\
 
 import { initialCards } from "./initialCards.js";
 
@@ -21,8 +20,8 @@ function createCard(card, { deleteCard, likeCard }) {
   cardImage.src = card.link; // ссылка на изображение
 
   //обработчик открытия попапа/картинка
-  cardElement.addEventListener("click", function () {
-    handleImageClick(popupImage, card.link, card.name);
+  cardImage.addEventListener("click", function () {
+    handleImageClick(card.link, card.name);
   });
 
   //обработчик лайка карточки
