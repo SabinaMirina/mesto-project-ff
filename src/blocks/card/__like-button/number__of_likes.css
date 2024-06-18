@@ -1,0 +1,8 @@
+.card__like-count {
+  block-size: 13px;
+  display: inline-block;
+  font-size: 13px;
+  line-height: 15.73px;
+  margin: 0;
+  align-self: center;
+}
