@@ -80,9 +80,6 @@ const getPromisesUserCards = () => {
           handleImageClick,
           openDeleteModal,
         });
-        if (cardData.owner._id !== userId) {
-          cardElement.querySelector(".card__delete-button").remove();
-        }
         placesList.append(cardElement);
       });
     })
@@ -109,9 +106,9 @@ function handleCardFormSubmit(evt) {
     })
     .finally(() => {
       changeNameButton(buttonAddCardPopup, false);
+      closeModal(popupAddCard);
+      evt.target.reset();
     });
-  closeModal(popupAddCard);
-  evt.target.reset();
 }
 
 // Функция открытия модального окна с картинкой
@@ -146,8 +143,8 @@ const handleAvatarForm = (evt) => {
     })
     .finally(() => {
       changeNameButton(buttonAvatarPopup, false);
+      evt.target.reset();
     });
-  evt.target.reset();
 };
 
 //Функция, смены названия кнопки при обработке данных в попапе

@@ -5,7 +5,7 @@ const placesList = document.querySelector(".places__list"); //Карточка
 
 import { addLike, deleteLike } from "./api.js";
 
-function createCard(card, user, { handleImageClick, openDeleteModal }) {
+function createCard(card, userId, { handleImageClick, openDeleteModal }) {
   const cardElement = cardTemplate
     .querySelector(".places__item")
     .cloneNode(true); // клонирование
@@ -25,7 +25,7 @@ function createCard(card, user, { handleImageClick, openDeleteModal }) {
   });
 
   //установка лайка при перезагрузке
-  if (card.likes.some((like) => like._id === user)) {
+  if (card.likes.some((like) => like._id === userId)) {
     likeButton.classList.add("card__like-button_is-active");
   }
 
@@ -51,6 +51,10 @@ function createCard(card, user, { handleImageClick, openDeleteModal }) {
     });
 
   const deleteButton = cardElement.querySelector(".card__delete-button");
+  // Удаление кнопки удаления, если пользователь не владелец карточки
+  if (card.owner._id !== userId) {
+    deleteButton.remove();
+  }
 
   //обработчик открытия попапа удаления карточки
   deleteButton.addEventListener("click", () =>
