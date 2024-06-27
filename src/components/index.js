@@ -100,14 +100,14 @@ function handleCardFormSubmit(evt) {
       placesList.prepend(
         createCard(cardData, userId, { handleImageClick, openDeleteModal })
       );
+      evt.target.reset();
+      closeModal(popupAddCard);
     })
     .catch((error) => {
       console.error("Произошла ошибка при добавлении карточки", error);
     })
     .finally(() => {
       changeNameButton(buttonAddCardPopup, false);
-      closeModal(popupAddCard);
-      evt.target.reset();
     });
 }
 
@@ -136,6 +136,7 @@ const handleAvatarForm = (evt) => {
   updateAvatar(avatarUrl)
     .then((data) => {
       avatarElement.style.backgroundImage = `url(${data.avatar})`;
+      evt.target.reset();
       closeModal(popupAvatar);
     })
     .catch((error) => {
@@ -143,7 +144,6 @@ const handleAvatarForm = (evt) => {
     })
     .finally(() => {
       changeNameButton(buttonAvatarPopup, false);
-      evt.target.reset();
     });
 };
 
@@ -207,6 +207,8 @@ function handleProfileFormSubmit(evt) {
     .then((data) => {
       profileTitle.textContent = data.name;
       profileSubtitle.textContent = data.about;
+      clearValidation(popupEdit, validationSettings);
+      closeModal(popupEdit);
       return data;
     })
     .catch((error) => {
@@ -217,8 +219,6 @@ function handleProfileFormSubmit(evt) {
     })
     .finally(() => {
       changeNameButton(buttonProfileEditPopup, false);
-      closeModal(popupEdit);
-      clearValidation(popupEdit, validationSettings);
     });
 }
 
